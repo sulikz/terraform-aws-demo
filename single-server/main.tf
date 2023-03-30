@@ -52,7 +52,7 @@ resource "aws_security_group" "instance" {
 variable "security_group_name" {
   description = "The name of the security group"
   type        = string
-  default     = "terraform-example-instance"
+  default     = "terraform-example-instance-single-server"
 }
 
 output "public_ip" {
