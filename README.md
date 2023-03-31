@@ -3,4 +3,4 @@ This repository contains examples of Terraform + AWS usage I've made while readi
 
 Overview:  
 /single_server - webserver installed on single EC2 instance  
-/cluster - EC2 cluster with AS  
+/cluster - EC2 cluster with Auto Scaling Group and Application Load Balancer  
