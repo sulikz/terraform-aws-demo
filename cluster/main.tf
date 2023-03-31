@@ -57,13 +57,16 @@ data "aws_vpc" "default" {
   default = true
 }
 
-data "aws_subnet_ids" "default" {
-	vpc_id = data.aws_vpc.default.id
-}
+data"aws_subnets" "default" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.default.id]
+  }
+} 
 
 resource "aws_autoscaling_group" "example" {
 	launch_configuration	= aws_launch_configuration.example.name
-	vpc_zone_identifier		= data.aws_subnet_ids.default.ids 
+	vpc_zone_identifier  = data.aws_subnets.default.ids
 	
 	target_group_arns		= [aws_lb_target_group.asg.arn]
 	health_check_type		= "ELB"
@@ -81,7 +84,7 @@ resource "aws_autoscaling_group" "example" {
 resource "aws_lb" "example" {
 	name				= "terraform-asg-example"
 	load_balancer_type	= "application"
-	subnets				= data.aws_subnet_ids.default.ids
+	subnets		        = data.aws_subnets.default.ids
 	security_groups		= [aws_security_group.alb.id]
 }
 
