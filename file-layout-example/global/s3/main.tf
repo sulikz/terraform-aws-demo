@@ -37,8 +37,12 @@ resource "aws_dynamodb_table" "terraform_locks" {
 
 # backend block can't use variables but locals can be used within same module to retain DRY rule
 terraform {
-  backend "local" {
-
+  backend "s3" {
+    bucket         = "terraform-states-demo-ls"
+    key            = "global/s3/terraform.tfstate"
+    region         = "us-east-2"
+    dynamodb_table = "terraform-up-and-running-locks"
+    encrypt        = true
   }
 }
 

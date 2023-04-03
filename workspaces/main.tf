@@ -15,11 +15,11 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket = "terraform-states-demo-ls"
-    key    = "workspaces-example/terraform.tfstate"
-    region = "us-east-2"
+    bucket         = "terraform-states-demo-ls"
+    key            = "workspaces-example/terraform.tfstate"
+    region         = "us-east-2"
     dynamodb_table = "terraform-up-and-running-locks"
-    encrypt = true
+    encrypt        = true
   }
 }
 
