@@ -13,6 +13,21 @@ variable "db_remote_state_key" {
   type        = string
 }
 
+variable "instance_type" {
+  decription = "EC2 instance type"
+  type       = string
+}
+
+variable "min_size" {
+  description = "Min number of EC2 instances in ASG"
+  type        = number
+}
+
+variable "max_size" {
+  description = "Max number of EC2 instances in ASG"
+  type        = number
+}
+
 variable "server_port" {
   description = "Port number used for HTTP requests"
   type        = number
