@@ -15,7 +15,7 @@ variable "db_remote_state_key" {
 
 variable "instance_type" {
   description = "EC2 instance type"
-  type       = string
+  type        = string
 }
 
 variable "min_size" {

@@ -29,8 +29,8 @@ resource "aws_security_group_rule" "allow_server_http_inbound" {
   to_port     = var.server_port
   protocol    = local.tcp_protocol
   cidr_blocks = local.all_ips
-  }
-  
+}
+
 resource "aws_autoscaling_group" "example" {
   launch_configuration = aws_launch_configuration.example.name
   vpc_zone_identifier  = data.aws_subnets.default.ids
