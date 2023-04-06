@@ -21,25 +21,16 @@ resource "aws_security_group" "instance" {
   name = "${var.cluster_name}-instance"
 }
 
-resource "aws_security_group_rule" "allow_http_inbound" {
+resource "aws_security_group_rule" "allow_server_http_inbound" {
   type              = "ingress"
-  security_group_id = aws_security_group.alb.id
+  security_group_id = aws_security_group.instance.id
 
-  from_port = local.http_port
-  to_port   = local.http_port
-  protocol  = local.all_ips
-}
-
-resource "aws_security_group_rule" "allow_all_outbound" {
-  type              = "egress"
-  security_group_id = aws_security_group.alb.id
-
-  from_port   = local.any_port
-  to_port     = local.any_port
-  protocol    = local.any_protocol
+  from_port   = var.server_port
+  to_port     = var.server_port
+  protocol    = local.tcp_protocol
   cidr_blocks = local.all_ips
-}
-
+  }
+  
 resource "aws_autoscaling_group" "example" {
   launch_configuration = aws_launch_configuration.example.name
   vpc_zone_identifier  = data.aws_subnets.default.ids
@@ -58,7 +49,7 @@ resource "aws_autoscaling_group" "example" {
 }
 
 resource "aws_lb" "example" {
-  name               = "terraform-asg-example-fle"
+  name               = var.cluster_name
   load_balancer_type = "application"
   subnets            = data.aws_subnets.default.ids
   security_groups    = [aws_security_group.alb.id]
@@ -66,7 +57,7 @@ resource "aws_lb" "example" {
 
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.example.arn
-  port              = local.any_port
+  port              = local.http_port
   protocol          = "HTTP"
 
   default_action {
@@ -82,23 +73,30 @@ resource "aws_lb_listener" "http" {
 
 resource "aws_security_group" "alb" {
   name = "${var.cluster_name}-alb"
-
-  ingress = {
-    from_port   = local.http_port
-    to_port     = local.http_port
-    protocol    = local.tcp_protocol
-    cidr_blocks = local.all_ips
-  }
-
-  egress = {
-    from_port   = local.any_port
-    to_port     = local.any_port
-    protocol    = local.any_protocol
-    cidr_blocks = local.all_ips
-  }
 }
+
+resource "aws_security_group_rule" "allow_http_inbound" {
+  type              = "ingress"
+  security_group_id = aws_security_group.alb.id
+
+  from_port   = local.http_port
+  to_port     = local.http_port
+  protocol    = local.tcp_protocol
+  cidr_blocks = local.all_ips
+}
+
+resource "aws_security_group_rule" "allow_all_outbound" {
+  type              = "egress"
+  security_group_id = aws_security_group.alb.id
+
+  from_port   = local.any_port
+  to_port     = local.any_port
+  protocol    = local.any_protocol
+  cidr_blocks = local.all_ips
+}
+
 resource "aws_lb_target_group" "asg" {
-  name     = "terraform-asg-example-fle"
+  name     = var.cluster_name
   port     = var.server_port
   protocol = "HTTP"
   vpc_id   = data.aws_vpc.default.id
