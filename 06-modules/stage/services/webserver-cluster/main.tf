@@ -10,7 +10,7 @@ module "webserver_cluster" {
   db_remote_state_bucket = var.db_remote_state_bucket
   db_remote_state_key    = var.db_remote_state_key
 
-  instance_type = "m4.large"
+  instance_type = "t2.micro"
   min_size      = 2
   max_size      = 10
 }
