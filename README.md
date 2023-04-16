@@ -1,5 +1,5 @@
 # terraform-demo
-This repository contains examples of Terraform + AWS usage I've made while reading "Terraform: Up & Running: Writing Infrastructure as Code" by Yevgeniy Brikman.
+This repository contains examples of Terraform + AWS usage based on "Terraform: Up & Running: Writing Infrastructure as Code" by Yevgeniy Brikman.
 
 Overview:  
 /01-single_server - webserver installed on single EC2 instance  
