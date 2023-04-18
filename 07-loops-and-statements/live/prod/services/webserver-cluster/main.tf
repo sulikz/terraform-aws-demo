@@ -14,7 +14,7 @@ module "webserver_cluster" {
   max_size      = 2
 
   custom_tags = {
-    Owner = "team-foo"
+    Owner      = "team-foo"
     DeployedBy = "terraform"
   }
 }
