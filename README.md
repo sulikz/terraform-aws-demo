@@ -8,3 +8,4 @@ Overview:
 /04-workspaces - example on how to use Terraforms workspaces  
 /05-file-layout - directory layout + separation into files + mySQL with RDS  
 /06-modules - continuation of previous chapter, webserver used as module for staging/production environments 
+/07-loops-and-statements - examples of loops and statements
