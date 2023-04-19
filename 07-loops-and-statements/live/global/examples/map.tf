@@ -1,7 +1,6 @@
-variable "user_names" {
-  description = "Creating IAM users"
-  type        = list(string)
-  default     = ["neo", "trinity", "morpheus"]
+
+output "map_output" {
+  value = [for name, role in var.heroes : "${name} is ${role}"]
 }
 
 variable "heroes" {
